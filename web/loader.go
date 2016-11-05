@@ -5,6 +5,10 @@ import (
 	"net/http"
 )
 
+type LayoutData struct {
+	Title string
+}
+
 func WriteTempl(filename string, data interface{}, w http.ResponseWriter) error {
 	t, err := template.ParseFiles(
 		"web/" + filename,
@@ -14,9 +18,5 @@ func WriteTempl(filename string, data interface{}, w http.ResponseWriter) error 
 		return err
 	}
 
-	if t.Execute(w, data) != nil {
-		return err
-	}
-
-	return nil
+	return t.Execute(w, data)
 }

@@ -1,5 +1,26 @@
-{{template "header"}}
+{{template "header" .}}
 
-<p>Hello, world!</p>
+<form action="/upload" method="post" enctype="multipart/form-data">
+  <input type="file" name="file"/>
 
-{{template "footer"}}
+  <label for="form-x">X offset</label>
+  <input id="form-x" type="number" name="x"/>
+
+  <label for="form-y">Y offset</label>
+  <input id="form-y" type="number" name="y"/>
+
+  <label for="form-width-l">Left monitor width</label>
+  <input id="form-width-l" type="number" name="width-l"/>
+
+  <label for="form-width-r">Right monitor width</label>
+  <input id="form-width-r" type="number" name="width-r"/>
+
+  <label for="form-height">Largest monitor height</label>
+  <input id="form-height" type="number" name="height"/>
+
+  <label for="form-gap">Monitor height</label>
+  <input id="form-gap" type="number" name="gap"/>
+  <input type="submit" value="Upload"/>
+</form>
+
+{{template "footer" .}}

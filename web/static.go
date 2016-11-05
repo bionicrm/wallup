@@ -2,7 +2,6 @@ package web
 
 import (
 	"io"
-	"log"
 	"net/http"
 	"os"
 	"path/filepath"
@@ -21,20 +20,17 @@ func HandleStatic(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-
 	w.Header().Set("content-type", contentType + "; charset=utf-8")
 
-	f, err := os.OpenFile("web" + r.URL.Path, os.O_RDONLY, 0)
+	f, err := os.Open("web" + r.URL.Path)
 	if err != nil {
-		log.Println(err)
-		w.WriteHeader(http.StatusInternalServerError)
+		WriteISE(err, w)
 		return
 	}
 	defer f.Close()
 
 	if _, err := io.Copy(w, f); err != nil {
-		log.Println(err)
-		w.WriteHeader(http.StatusInternalServerError)
+		WriteISE(err, w)
 		return
 	}
 }
