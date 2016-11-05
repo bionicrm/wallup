@@ -26,6 +26,14 @@ body {
   display: block;
 }
 
+.form-p {
+  color: #ddd;
+  font: 12pt/1 'Source Sans Pro', sans-serif;
+
+  margin: 0.5em 0 0 0;
+  text-align: right;
+}
+
 .form-file {
   opacity: 0;
 
@@ -73,11 +81,13 @@ body {
 .form-file-label, .form-text, .form-btn {
   border-radius: 3px;
   outline: none;
+}
 
+.form-text, .form-btn {
   width: calc(100% - 0.5em);
 }
 
-.form-text-label {
+/*.form-p, */.form-text-label {
   color: #fff;
 }
 
