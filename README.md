@@ -1,3 +1,3 @@
 # Wallup
 
-High-quality desktop wallpapers.
+Account for gaps in dual monitor setups for wide desktop wallpapers.
