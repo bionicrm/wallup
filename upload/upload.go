@@ -1,7 +1,6 @@
 package upload
 
 import (
-	"github.com/bionicrm/wallup/gen"
 	"github.com/bionicrm/wallup/web"
 	"io/ioutil"
 	"net/http"
@@ -60,7 +59,7 @@ func DoUploadHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	img, contentType, err := gen.Generate(b, x, y, widthL, widthR, height, gap)
+	img, contentType, err := generate(b, x, y, widthL, widthR, height, gap)
 	if err != nil {
 		web.WriteBadReq(err, w)
 		return

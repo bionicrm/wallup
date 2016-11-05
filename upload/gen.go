@@ -1,4 +1,4 @@
-package gen
+package upload
 
 import (
 	"bytes"
@@ -10,7 +10,7 @@ import (
 	"image/png"
 )
 
-func Generate(b []byte, x, y, widthL, widthR, height, gap int) ([]byte, string, error) {
+func generate(b []byte, x, y, widthL, widthR, height, gap int) ([]byte, string, error) {
 	// Decode.
 	img, imgType, err := image.Decode(bytes.NewReader(b))
 	if err != nil {
