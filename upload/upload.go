@@ -1,6 +1,7 @@
 package upload
 
 import (
+	"errors"
 	"github.com/bionicrm/wallup/web"
 	"io/ioutil"
 	"net/http"
@@ -61,7 +62,16 @@ func DoUploadHandler(w http.ResponseWriter, r *http.Request) {
 
 	img, contentType, err := generate(b, x, y, widthL, widthR, height, gap)
 	if err != nil {
-		web.WriteBadReq(err, w)
+		if (err == boundsError) {
+			web.WriteBadReq(errors.New("With the requested offsets, widths, " +
+				"and height, the source image is too small"), w)
+		} else if (err == imgTypeError) {
+			web.WriteBadReq(errors.New("Unsupported image type '" + contentType +
+				"'"), w)
+		} else {
+			web.WriteBadReq(err, w)
+		}
+
 		return
 	}
 

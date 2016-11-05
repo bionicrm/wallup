@@ -1,3 +1,104 @@
+/* general */
+
+* {
+  box-sizing: content-box;
+}
+
 body {
-  
+  background-color: #333;
+
+  margin: 0;
+}
+
+.main {
+  max-width: 30em;
+  margin: auto;
+  padding: 1em;
+}
+
+/* form */
+
+.form-block {
+  padding: 0.5em 0;
+}
+
+.form-block > * {
+  display: block;
+}
+
+.form-file {
+  opacity: 0;
+
+  width: 0.1px;
+  height: 0.1px;
+  overflow: hidden;
+  position: absolute;
+  z-index: -1;
+}
+
+.form-file-label {
+  text-align: center;
+}
+
+.form-text {
+  border: 1px solid #555;
+  font: 18pt/1 'Source Sans Pro', sans-serif;
+
+  transition: box-shadow .1s;
+
+  padding: 5px;
+}
+
+.form-text:focus {
+  box-shadow: 0 0 10px #fff;
+}
+
+.form-file-label, .form-btn {
+  background-color: #9cef5d;
+  border: 1px solid #7bbe6d;
+
+  transition: background-color .1s;
+
+  margin-top: 0.5em;
+}
+
+.form-file-label:hover, .form-btn:hover {
+  background-color: #94e358;
+}
+
+.form-file-label:active, .form-btn:active {
+  background-color: #8cd753;
+}
+
+.form-file-label, .form-text, .form-btn {
+  border-radius: 3px;
+  outline: none;
+
+  width: calc(100% - 0.5em);
+}
+
+.form-text-label {
+  color: #fff;
+}
+
+.form-file-label, .form-text-label, .form-btn {
+  font: 26pt/1.3 'Amatic SC', sans-serif;
+}
+
+.form-invalid {
+  box-shadow: 0 0 10px #ff5300;
+}
+
+/* error */
+
+.error {
+  color: #fff;
+}
+
+.error-h {
+  font: 52pt/1 'Amatic SC', sans-serif;
+}
+
+.error-p {
+  font: 18pt/1.3 'Source Sans Pro', sans-serif;
 }

@@ -10,6 +10,9 @@ import (
 	"image/png"
 )
 
+var boundsError = errors.New("new dimensions out of bounds")
+var imgTypeError = errors.New("unsupported image type")
+
 func generate(b []byte, x, y, widthL, widthR, height, gap int) ([]byte, string, error) {
 	// Decode.
 	img, imgType, err := image.Decode(bytes.NewReader(b))
@@ -27,8 +30,11 @@ func generate(b []byte, x, y, widthL, widthR, height, gap int) ([]byte, string, 
 }
 
 func check(bounds image.Rectangle, x, y, widthL, widthR, height, gap int) error {
-	if x + widthL + gap + widthR > bounds.Max.X || y + height > bounds.Max.Y {
-		return errors.New("new dimensions out of bounds")
+	reqX := x + widthL + gap + widthR;
+	reqY := y + height;
+
+	if reqX > bounds.Max.X || reqY > bounds.Max.Y {
+		return boundsError
 	}
 
 	return nil
@@ -65,7 +71,7 @@ func encode(img image.Image, imgType string) ([]byte, string, error) {
 	case "png":
 		err = png.Encode(&buf, img)
 	default:
-		return nil, "", errors.New("unsupported image type '" + imgType + "'")
+		return nil, "", imgTypeError
 	}
 
 	return buf.Bytes(), "image/" + imgType, err
