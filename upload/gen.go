@@ -3,6 +3,7 @@ package upload
 import (
 	"bytes"
 	"errors"
+	"github.com/nfnt/resize"
 	"image"
 	"image/draw"
 	"image/gif"
@@ -13,23 +14,27 @@ import (
 var boundsError = errors.New("new dimensions out of bounds")
 var imgTypeError = errors.New("unsupported image type")
 
-func generate(b []byte, x, y, widthL, widthR, height, gap int) ([]byte, string, error) {
+func generate(b []byte, x, y, widthL, widthR, height, gap int, scale float64) ([]byte, string, error) {
 	// Decode.
 	img, imgType, err := image.Decode(bytes.NewReader(b))
 	if err != nil {
 		return nil, "", err
 	}
 
-	if err := check(img.Bounds(), x, y, widthL, widthR, height, gap); err != nil {
+	if err := check(img.Bounds(), x, y, widthL, widthR, height, gap, scale); err != nil {
 		return nil, "", err
 	}
 
-	img = edit(img, x, y, widthL, widthR, height, gap)
+	img = edit(img, x, y, widthL, widthR, height, gap, scale)
 
 	return encode(img, imgType)
 }
 
-func check(bounds image.Rectangle, x, y, widthL, widthR, height, gap int) error {
+func check(bounds image.Rectangle, x, y, widthL, widthR, height, gap int, scale float64) error {
+	widthL = int(float64(widthL) * scale)
+	widthR = int(float64(widthR) * scale)
+	height = int(float64(height) * scale)
+
 	reqX := x + widthL + gap + widthR;
 	reqY := y + height;
 
@@ -40,19 +45,28 @@ func check(bounds image.Rectangle, x, y, widthL, widthR, height, gap int) error 
 	return nil
 }
 
-func edit(src image.Image, x, y, widthL, widthR, height, gap int) image.Image {
-	dst := image.NewRGBA(image.Rect(0, 0, widthL + widthR, height))
+func edit(src image.Image, x, y, widthL, widthR, height, gap int, scale float64) image.Image {
+	widthLScaled := int(float64(widthL) * scale)
+	widthRScaled := int(float64(widthR) * scale)
+	heightScaled := int(float64(height) * scale)
 
-	dstLRect := image.Rect(0, 0, widthL, height)
-	dstRRect := image.Rect(widthL, 0, widthL + widthR, height)
+	dst := image.NewRGBA(image.Rect(0, 0, widthLScaled + widthRScaled, heightScaled))
+
+	dstLRect := image.Rect(0, 0, widthLScaled, heightScaled)
+	dstRRect := image.Rect(widthLScaled, 0, widthLScaled + widthRScaled, heightScaled)
 
 	srcLPt := image.Pt(x, y)
-	srcRPt := image.Pt(x + widthL + gap, y)
+	srcRPt := image.Pt(x + widthLScaled + gap, y)
 
 	draw.Draw(dst, dstLRect, src, srcLPt, draw.Src)
 	draw.Draw(dst, dstRRect, src, srcRPt, draw.Src)
 
-	return dst
+	if (scale != 1) {
+		// Scale back down.
+		return resize.Resize(uint(widthL + widthR), uint(height), dst, resize.Bicubic)
+	}
+
+	return dst;
 }
 
 func encode(img image.Image, imgType string) ([]byte, string, error) {

@@ -39,6 +39,7 @@ func DoUploadHandler(w http.ResponseWriter, r *http.Request) {
 		widthLS = r.FormValue("width-l")
 		widthRS = r.FormValue("width-r")
 		heightS = r.FormValue("height")
+		scaleS = r.FormValue("scale")
 		gapS    = r.FormValue("gap")
 	)
 
@@ -47,9 +48,10 @@ func DoUploadHandler(w http.ResponseWriter, r *http.Request) {
 	widthL, err := strconv.Atoi(widthLS)
 	widthR, err := strconv.Atoi(widthRS)
 	height, err := strconv.Atoi(heightS)
+	scale, err := strconv.ParseFloat(scaleS, 64)
 	gap, err := strconv.Atoi(gapS)
 
-	if err != nil {
+	if err != nil || x < 0 || y < 0 || widthL <= 0 || widthR <= 0 || height <= 0 || scale <= 0 || gap < 0 {
 		web.WriteBadReq(err, w)
 		return
 	}
@@ -60,11 +62,11 @@ func DoUploadHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	img, contentType, err := generate(b, x, y, widthL, widthR, height, gap)
+	img, contentType, err := generate(b, x, y, widthL, widthR, height, gap, scale)
 	if err != nil {
 		if (err == boundsError) {
 			web.WriteBadReq(errors.New("With the requested offsets, widths, " +
-				"and height, the source image is too small"), w)
+				"height, and scale, the source image is too small"), w)
 		} else if (err == imgTypeError) {
 			web.WriteBadReq(errors.New("Unsupported image type '" + contentType +
 				"'"), w)
