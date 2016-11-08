@@ -16,4 +16,4 @@ Take note of how the gun continues onto the next monitor. In the 'before', the g
 
 **After**
 
-![ Desktop after](https://i.imgur.com/JaYpdiS.jpg)
+![Desktop after](https://i.imgur.com/JaYpdiS.jpg)
