@@ -4,7 +4,7 @@ Account for gaps in dual monitor setups for wide desktop wallpapers.
 
 ![Value diagram](https://i.imgur.com/BvmaMhn.jpg)
 
-**Note:** The `scale` effectively zooms out when sampling the source image 
+**Note:** The `scale` effectively zooms out when sampling the source image.
 
 ## Before and After
 
