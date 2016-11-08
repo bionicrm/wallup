@@ -8,7 +8,7 @@ Account for gaps in dual monitor setups for wide desktop wallpapers.
 
 ## Before and After
 
-Take note of how the gun continues onto the next monitor. In the 'before', the gun is misaligned due to the gap between both monitors. In the 'after', the gun appears to be realigned.
+Take note of how the gun continues onto the next monitor. In the 'before', the gun is misaligned due to the gap between both monitors. In the 'after', the gun appears to be aligned.
 
 **Before**
 
